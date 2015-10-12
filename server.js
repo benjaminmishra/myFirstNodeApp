@@ -7,10 +7,6 @@ var bodyParser = require('body-parser');
 var io = require('socket.io')(http);
 
 
-//app.get('/', function(req,res){
-//	res.send('Hello World');
-//});
-
 app.use(express.static(__dirname +'/public'));
 app.use(bodyParser.json());
 
@@ -18,7 +14,11 @@ app.use(bodyParser.json());
 io.on('connection', function(socket){
 	console.log("new user connected");
 });
-		
+
+io.on('disconnect', function (socket) { 
+    console.log("user disconnected");
+});
+
 
 app.get('/contactlist',function(req,response){
 	console.log('I received a get request');
@@ -27,7 +27,6 @@ app.get('/contactlist',function(req,response){
 		console.log(docs);
 		response.json(docs);
 	});
-
 });
 
 app.post('/contactlist',function(reqst,resp){
